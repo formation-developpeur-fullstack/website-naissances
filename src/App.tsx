@@ -1,7 +1,9 @@
+import { Outlet } from "react-router-dom";
+
 function App() {
   return (
-    <main>
-      <h1 className="text-3xl font-bold underline">Gestion de naissances</h1>
+    <main className="bg-gray-200 min-h-screen">
+      <Outlet />
     </main>
   );
 }
