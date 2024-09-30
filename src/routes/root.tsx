@@ -1,9 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
-import App from "../App";
-import ErrorPage from "../error-page";
-import PrivateLayout from "../layouts/PrivateLayout";
-import Declarations from "../pages/Declarations";
-import Home from "../pages/Home";
+import App from "@/App";
+import ErrorPage from "@/error-page";
+import PrivateLayout from "@/layouts/PrivateLayout";
+import Declarations from "@/pages/Declarations";
+import Home from "@/pages/Home";
 const router = createBrowserRouter([
   {
     path: "/",

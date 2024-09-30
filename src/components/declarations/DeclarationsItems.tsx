@@ -1,0 +1,28 @@
+import { Declaration } from "@/types/Declaration";
+import DeclarationItem from "./DeclarationItem";
+
+type Props = {
+  declarations: Declaration[];
+};
+function DeclarationsItems(props: Props) {
+  const { declarations } = props;
+  return (
+    <>
+      <article className="grid grid-cols-12 items-center">
+        <span className={`p-2`}>Date</span>
+        <span className={`p-2 col-span-2`}>Enfant</span>
+        <span className={`p-2`}>Date de Nais.</span>
+        <span className={`p-2`}>Hopital</span>
+        <span className={`p-2 col-span-2`}>Parent 1</span>
+        <span className={`p-2 col-span-2`}>Parent 2</span>
+        <span className={`p-2 text-center`}>Statut</span>
+        <span className={`p-2 col-span-2 text-center`}>ACTIONS</span>
+      </article>
+      {declarations.map((item: Declaration, index: number) => (
+        <DeclarationItem declaration={item} index={index} key={item.id} />
+      ))}
+    </>
+  );
+}
+
+export default DeclarationsItems;

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { NAV_LINKS } from "../../utils";
+import { NAV_LINKS } from "@/utils";
 
 function Nav() {
   return (
