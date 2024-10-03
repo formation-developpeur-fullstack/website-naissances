@@ -6,9 +6,10 @@ import { Declaration } from "@/types/Declaration";
 type Props = {
   declaration: Declaration;
   index: number;
+  action: (data: { id: string; status: string }) => void;
 };
 
-function DeclarationItem({ declaration: item, index }: Props) {
+function DeclarationItem({ declaration: item, index, action }: Props) {
   return (
     <article
       className={`grid grid-cols-12 border-t border-gray-300 col-span-2 items-center ${
@@ -31,13 +32,15 @@ function DeclarationItem({ declaration: item, index }: Props) {
         <span className="uppercase">{item.firstParent.lastName}</span>
       </span>
       <span className={`p-2 col-span-2 flex flex-col`}>
-        <span>{item.seconParent.firstName}</span>
-        <span className="uppercase">{item.seconParent.lastName}</span>
+        <span>{item.secondParent.firstName}</span>
+        <span className="uppercase">{item.secondParent.lastName}</span>
       </span>
       <StatusBadge status={item.status} />
-      <ActionButton classes="p-2 col-span-2" action={() => null}>
-        <span>action</span>
-      </ActionButton>
+      <ActionButton
+        classes="p-2 col-span-2"
+        action={action}
+        id={`${item.id}`}
+      ></ActionButton>
     </article>
   );
 }

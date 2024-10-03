@@ -28,4 +28,5 @@ const getStatusLabel = (status: string) => {
     }
 }
 
-export {getStatusColor, getStatusLabel}
+const STATUS = ["NEW", "ON_GOING", "VALIDATED", "REJECTED"];
+export {STATUS, getStatusColor, getStatusLabel}

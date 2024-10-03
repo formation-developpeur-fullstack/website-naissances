@@ -1,13 +1,14 @@
+import { Child } from './Child';
 import { Company } from './Company';
 import { Profile } from './Profile';
 export type Declaration = {
-    id: string|number
-    picture: string
-    comment: string
+    id?: string|number
+    picture?: string
+    comment?: string
     status: string
     registered: string
     company: Company
-    child: Profile
+    child: Child
     firstParent: Profile
-    seconParent: Profile
+    secondParent: Profile
 }

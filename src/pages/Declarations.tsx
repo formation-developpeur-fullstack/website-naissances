@@ -7,6 +7,7 @@ function Declarations() {
     filteredDeclarations,
     filterRef,
     declarations,
+    updateStatus,
     sortByDate,
     sortByStatus,
     filterDeclarations,
@@ -19,7 +20,7 @@ function Declarations() {
           name=""
           id="rechercher"
           placeholder="Rechercher par nom"
-          className="bg-gray-200 px-3 py-2 rounded-md w-96"
+          className="bg-gray-200 px-3 py-2 rounded-md !w-96"
           ref={filterRef}
           onKeyUp={filterDeclarations}
         />
@@ -35,6 +36,7 @@ function Declarations() {
           declarations={
             filteredDeclarations.length ? filteredDeclarations : declarations
           }
+          updateStatus={updateStatus}
           sortByStatus={sortByStatus}
           sortByDate={sortByDate}
         />
