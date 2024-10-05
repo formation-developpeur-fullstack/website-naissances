@@ -17,7 +17,9 @@ function ActionButton({ id, classes, action }: Props) {
       >
         <option>Sélectionner</option>
         {STATUS.map((item: string) => (
-          <option value={item}>{getStatusLabel(item)}</option>
+          <option value={item} key={`${id}-${item}`}>
+            {getStatusLabel(item)}
+          </option>
         ))}
       </select>
     </div>

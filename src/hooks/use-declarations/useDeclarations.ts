@@ -1,18 +1,29 @@
+import { ApplicationContext } from "@/context/ApplicationContextProvider";
 import { search } from "@/services";
 import { Declaration } from "@/types/Declaration";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 function useDeclarations() {
+  const {state, updateDeclarations, updateDeclarationStatus} = useContext(ApplicationContext)
   const filterRef = useRef<any>();
   const [statusOrder, setStatusOrder] = useState(1);
   const [dateOrder, setDateOrder] = useState(1);
-  const [declarations, setDeclarations] = useState<Declaration[]>([]);
-  const [filteredDeclarations, setFilteredDeclarations] = useState<Declaration[]>([]);
-  const updateStatus = (data: { id: string; status: string }) => {
-    console.log('====================================');
-    console.log(data);
-    console.log('====================================');
-  }
+  const [declarations, setDeclarations] = useState<Declaration[]>(state.declarations);
+  const [filteredDeclarations, setFilteredDeclarations] = useState<
+    Declaration[]
+  >([]);
+  const updateStatusWithoutContext = (data: { id: string; status: string }) => {
+    const toUpdate = declarations.filter(
+      ({ id }: Declaration) => id === data.id
+    )[0];
+    const updated = { ...toUpdate, status: data.status };
+    const toKeep = declarations.filter(({ id }: Declaration) => id !== data.id);
+
+    setDeclarations(() => [...toKeep, updated]);
+  };
+ 
+  const updateStatus = (data: { id: string; status: string }) => updateDeclarationStatus(data);
+ 
   const sortByStatus = () => {
     const sortedDeclarations = declarations.sort(
       (itemOne: Declaration, itemTwo: Declaration) => {
@@ -50,7 +61,7 @@ function useDeclarations() {
 
   const filterDeclarations = () => {
     const filter = filterRef.current.value || "";
-    
+
     if (filter.length >= 2) {
       const filteredDeclarations = declarations.filter((item) => {
         const {
@@ -63,17 +74,19 @@ function useDeclarations() {
       });
       setFilteredDeclarations([...filteredDeclarations]);
     } else {
-      setFilteredDeclarations([...declarations])
+      setFilteredDeclarations([...declarations]);
     }
   };
   const getDeclarations = async () => {
     const data = await search("declarations");
     setDeclarations(data);
+    updateDeclarations(data);
   };
   useEffect(() => {
     getDeclarations();
   }, []);
   return {
+    state,
     filteredDeclarations,
     declarations,
     filterRef,
