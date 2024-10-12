@@ -24,7 +24,7 @@ const router = createBrowserRouter([
         element: <PrivateLayout />,
         children: [
           {
-            path: "",
+            index: true,
             action: destroyAction,
           },
           {
