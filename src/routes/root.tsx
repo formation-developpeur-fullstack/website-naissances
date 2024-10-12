@@ -5,6 +5,10 @@ import PrivateLayout from "@/layouts/PrivateLayout";
 import Declarations from "@/pages/Declarations";
 import Home from "@/pages/Home";
 import DeclarationEdit from "@/pages/DeclarationEdit";
+import { action as destroyAction } from "./destroy";
+import Requests from "@/pages/requests/Requests";
+import RequestEdit from "@/pages/requests/RequestEdit";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -20,12 +24,24 @@ const router = createBrowserRouter([
         element: <PrivateLayout />,
         children: [
           {
+            path: "",
+            action: destroyAction,
+          },
+          {
             path: "declarations",
             element: <Declarations />,
           },
           {
-            path: "declarations/new",
+            path: "declarations/nouvelle-declaration",
             element: <DeclarationEdit />,
+          },
+          {
+            path: "demandes",
+            element: <Requests />,
+          },
+          {
+            path: "demandes/nouvelle-demande",
+            element: <RequestEdit />,
           },
         ],
       },
