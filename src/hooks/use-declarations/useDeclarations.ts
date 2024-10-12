@@ -1,9 +1,11 @@
+import { GlobalApplicationContext } from './../../context/global/GlobalApplicationContextProvider';
 import { ApplicationContext } from "@/context/ApplicationContextProvider";
 import { search } from "@/services";
 import { Declaration } from "@/types/Declaration";
 import { useContext, useEffect, useRef, useState } from "react";
 
 function useDeclarations() {
+  const {updateTitle} = useContext(GlobalApplicationContext)
   const {state, updateDeclarations, updateDeclarationStatus} = useContext(ApplicationContext)
   const filterRef = useRef<any>();
   const [statusOrder, setStatusOrder] = useState(1);
@@ -83,6 +85,7 @@ function useDeclarations() {
     updateDeclarations(data);
   };
   useEffect(() => {
+    updateTitle({"title": "Déclarations"});
     getDeclarations();
   }, []);
   return {

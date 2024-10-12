@@ -15,7 +15,6 @@ function PageFilter({
   const filterRef = useRef<any>();
   const handlechange = () => {
     const value = filterRef.current.value;
-
     uneaction(value);
   };
   return (

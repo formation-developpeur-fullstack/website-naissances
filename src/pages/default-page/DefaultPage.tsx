@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { redirect } from "react-router-dom";
+import { Navigate, redirect } from "react-router-dom";
 
 function DefaultPage() {
   const goto = () => {
@@ -11,7 +11,7 @@ function DefaultPage() {
   useEffect(() => {
     goto();
   }, []);
-  return null;
+  return <Navigate to="/private/declarations" />;
 }
 
 export default DefaultPage;

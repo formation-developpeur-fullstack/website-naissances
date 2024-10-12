@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from "@/App";
 import ErrorPage from "@/error-page";
 import PrivateLayout from "@/layouts/PrivateLayout";
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            action: destroyAction,
+            element: <Navigate to={"/private/demandes"} />,
           },
           {
             path: "declarations",
