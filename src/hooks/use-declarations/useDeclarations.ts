@@ -1,12 +1,16 @@
-import { GlobalApplicationContext } from './../../context/global/GlobalApplicationContextProvider';
-import { ApplicationContext } from "@/context/ApplicationContextProvider";
+import { GlobalApplicationContext } from '@/context/global/GlobalApplicationContextProvider';
 import { search } from "@/services";
 import { Declaration } from "@/types/Declaration";
+import { useQuery } from '@tanstack/react-query';
 import { useContext, useEffect, useRef, useState } from "react";
 
 function useDeclarations() {
-  const {updateTitle} = useContext(GlobalApplicationContext)
-  const {state, updateDeclarations, updateDeclarationStatus} = useContext(ApplicationContext)
+  const {updateTitle, state: {token}} = useContext(GlobalApplicationContext);
+  const {data} = useQuery({ 
+    queryKey: ['declarations'], 
+    queryFn: () => search({path: "declarations", token}),
+  });
+  const {state, updateDeclarations} = useContext(GlobalApplicationContext)
   const filterRef = useRef<any>();
   const [statusOrder, setStatusOrder] = useState(1);
   const [dateOrder, setDateOrder] = useState(1);
@@ -14,17 +18,7 @@ function useDeclarations() {
   const [filteredDeclarations, setFilteredDeclarations] = useState<
     Declaration[]
   >([]);
-  const updateStatusWithoutContext = (data: { id: string; status: string }) => {
-    const toUpdate = declarations.filter(
-      ({ id }: Declaration) => id === data.id
-    )[0];
-    const updated = { ...toUpdate, status: data.status };
-    const toKeep = declarations.filter(({ id }: Declaration) => id !== data.id);
-
-    setDeclarations(() => [...toKeep, updated]);
-  };
- 
-  const updateStatus = (data: { id: string; status: string }) => updateDeclarationStatus(data);
+  const updateStatus = (data: { id: string; status: string }) => {};
  
   const sortByStatus = () => {
     const sortedDeclarations = declarations.sort(
@@ -79,15 +73,13 @@ function useDeclarations() {
       setFilteredDeclarations([...declarations]);
     }
   };
-  const getDeclarations = async () => {
-    const data = await search("declarations");
-    setDeclarations(data);
-    updateDeclarations(data);
-  };
+
   useEffect(() => {
     updateTitle({"title": "Déclarations"});
-    getDeclarations();
-  }, []);
+    setDeclarations(data);
+    updateDeclarations(data);
+  }, [data]);
+
   return {
     state,
     filteredDeclarations,

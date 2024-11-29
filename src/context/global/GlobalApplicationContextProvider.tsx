@@ -1,17 +1,21 @@
 import { Declaration } from "@/types/Declaration";
 import { Request } from "@/types/Request";
-import { createContext, useReducer, useState } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import GlobalApplicationReducer from "./GlobalApplicationReducer";
 import {
   APPLICATION_STATE,
+  DELETE_TOKEN,
   FILTER_REQUESTS,
   SET_REQUEST_STATUS,
   SET_REQUESTS,
+  SET_TOKEN,
+  UPDATE_DECLARATIONS,
   UPDATE_TITLE,
 } from "@/utils";
 
 type StateProps = {
   title: string;
+  token?: string;
   requestFilter?: string;
   requests: Request[];
   declarations: Declaration[];
@@ -23,6 +27,9 @@ type Props = {
   setRequests: (data: any) => void;
   updateRequestStatus: (data: any) => void;
   updateTitle: (data: any) => void;
+  setToken: (data: any) => void;
+  deleteToken: () => void;
+  updateDeclarations: (data: any) => void;
 };
 
 export const GlobalApplicationContext = createContext<Props>({} as Props);
@@ -38,7 +45,12 @@ function GlobalApplicationContextProvider({ children }: any) {
     GlobalApplicationReducer,
     APPLICATION_STATE
   );
-
+  const setToken = (data: any) => {
+    dispatch({ type: SET_TOKEN, data });
+  };
+  const deleteToken = () => {
+    dispatch({ type: DELETE_TOKEN });
+  };
   const updateTitle = (data: any) => {
     dispatch({ type: UPDATE_TITLE, data });
   };
@@ -51,17 +63,27 @@ function GlobalApplicationContextProvider({ children }: any) {
   const filterRequests = (data: any) => {
     dispatch({ type: FILTER_REQUESTS, data });
   };
+  const updateDeclarations = (declarations: Declaration[]) => {
+    dispatch({ type: UPDATE_DECLARATIONS, data: declarations });
+  };
+  useEffect(() => {
+    dispatch({});
+  }, []);
+
   return (
     <GlobalApplicationContext.Provider
       value={{
         state,
+        deleteToken,
+        setToken,
         filterRequests,
         updateRequestStatus,
         setRequests,
         updateTitle,
+        updateDeclarations,
       }}
     >
-      <section className="border-4 border-blue-400">{children}</section>
+      {children}
     </GlobalApplicationContext.Provider>
   );
 }

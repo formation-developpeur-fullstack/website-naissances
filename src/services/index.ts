@@ -1,9 +1,15 @@
-const host = "http://localhost:8080"
-const search = async (url: string) => {
+type Params = {
+    path: string,
+    token?: string
+}
+const search = async ({path, token}: Params) => {
     const response = await fetch(
-            `${host}/${url}`, 
+            `/api/${path}`, 
             {
-                headers: {'accept': 'application/json'}
+                headers: {
+                    'accept': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
             }
         );
     const data = await response.json();
@@ -13,7 +19,7 @@ const search = async (url: string) => {
 
 const create =  async (url: string, body: any) => {
     const response = await fetch(
-        `${host}/${url}`,
+        `/api/${url}`,
         {
             headers: {'accept': 'application/json', 'content-type': 'application/json'},
             body: JSON.stringify(body),
