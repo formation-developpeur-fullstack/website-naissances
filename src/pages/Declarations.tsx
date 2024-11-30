@@ -1,4 +1,5 @@
 import DeclarationsItems from "@/components/declarations/DeclarationsItems";
+import Debug from "@/components/shared/Debug";
 import { useDeclarations } from "@/hooks";
 
 function Declarations() {
@@ -23,6 +24,7 @@ function Declarations() {
           sortByDate={sortByDate}
         />
       </div>
+      <Debug data={declarations} />
     </>
   );
 }

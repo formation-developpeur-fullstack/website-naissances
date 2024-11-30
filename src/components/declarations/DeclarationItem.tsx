@@ -10,19 +10,37 @@ type Props = {
 };
 
 function DeclarationItem({ declaration: item, index, action }: Props) {
+  const getLastStatus = (declaration: any) => {
+    const status = declaration.statuses.sort(
+      ({ registered }: { registered: Date }) => registered
+    )[0];
+    const {
+      status: { name },
+    } = status;
+    return name;
+  };
+  const getDate = (declaration: any) => {
+    const status = declaration.statuses.filter((item: any) => {
+      const {
+        status: { name },
+      } = item;
+      return name.toUpperCase() === "NEW";
+    })[0];
+    return status ? status.registered : null;
+  };
   return (
     <article
       className={`grid grid-cols-12 border-t border-gray-300 col-span-2 items-center ${
         index % 2 === 0 ? "bg-gray-100" : null
       }`}
     >
-      <span className={`p-2`}>{formatDate(item.registered)}</span>
+      <span className={`p-2`}>{formatDate(getDate(item))}</span>
       <span className={`p-2 col-span-2 flex flex-col`}>
         <span>{item.child.firstName}</span>
         <span className="uppercase">{item.child.lastName}</span>
       </span>
       <span className={`p-2`}>
-        {item?.child?.brithDate ? formatDate(item.child.brithDate) : null}
+        {item?.child?.brithDate ? formatDate(item.child.brithDate) : "N/A"}
       </span>
       <span>
         <span>{item.company.name}</span>
@@ -35,7 +53,7 @@ function DeclarationItem({ declaration: item, index, action }: Props) {
         <span>{item.secondParent.firstName}</span>
         <span className="uppercase">{item.secondParent.lastName}</span>
       </span>
-      <StatusBadge status={item.status} />
+      <StatusBadge status={getLastStatus(item)} />
       <ActionButton
         classes="p-2 col-span-2"
         action={action}

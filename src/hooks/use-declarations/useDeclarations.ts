@@ -9,6 +9,7 @@ function useDeclarations() {
   const {data} = useQuery({ 
     queryKey: ['declarations'], 
     queryFn: () => search({path: "declarations", token}),
+    retry: 2
   });
   const {state, updateDeclarations} = useContext(GlobalApplicationContext)
   const filterRef = useRef<any>();
