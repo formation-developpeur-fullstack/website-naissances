@@ -5,6 +5,7 @@ import { create } from "@/services";
 import { useContext } from "react";
 import { GlobalApplicationContext } from "@/context/global/GlobalApplicationContextProvider";
 import { useMutation } from "@tanstack/react-query";
+import { AxiosResponse } from "axios";
 const REQUIRED_FIELD = "Ce champ est requis";
 type Credentials = {
   email: string;
@@ -27,10 +28,14 @@ function Login() {
     resolver: yupResolver(schema),
   });
   const mutation = useMutation({
-    mutationFn: (credentials: Credentials) => create("sign-in", credentials),
-    onSuccess: async (response: Response) => {
-      const { bearer: token } = await response.json();
-      setToken({ token });
+    mutationFn: (credentials: Credentials) =>
+      create({ url: "sign-in", body: credentials }),
+    onSuccess: (response: AxiosResponse) => {
+      const {
+        data: { bearer },
+      } = response;
+
+      setToken({ token: bearer });
       reset();
     },
   });

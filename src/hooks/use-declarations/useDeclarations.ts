@@ -1,15 +1,22 @@
 import { GlobalApplicationContext } from '@/context/global/GlobalApplicationContextProvider';
-import { search } from "@/services";
+import { partialUpdate, search } from "@/services";
 import { Declaration } from "@/types/Declaration";
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useContext, useEffect, useRef, useState } from "react";
 
 function useDeclarations() {
+  const queryClient = useQueryClient();
   const {updateTitle, state: {token}} = useContext(GlobalApplicationContext);
   const {data} = useQuery({ 
     queryKey: ['declarations'], 
     queryFn: () => search({path: "declarations", token}),
     retry: 2
+  });
+  const partialUpdateMutation = useMutation({ 
+    mutationFn: ({path, data}: any) => partialUpdate({path, token, body: data}),
+    onSettled: () =>{
+      queryClient.invalidateQueries({queryKey:  ['declarations']})
+    }
   });
   const {state, updateDeclarations} = useContext(GlobalApplicationContext)
   const filterRef = useRef<any>();
@@ -19,7 +26,9 @@ function useDeclarations() {
   const [filteredDeclarations, setFilteredDeclarations] = useState<
     Declaration[]
   >([]);
-  const updateStatus = (data: { id: string; status: string }) => {};
+  const updateStatus = (data: { id: string; status: string }) => {
+    partialUpdateMutation.mutate({path: `declarations/${data.id}/status`, data})
+  };
  
   const sortByStatus = () => {
     const sortedDeclarations = declarations.sort(

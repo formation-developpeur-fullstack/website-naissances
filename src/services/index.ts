@@ -1,9 +1,11 @@
+import axios from "axios";
+
 type Params = {
     path: string,
     token?: string
 }
 const search = async ({path, token}: Params) => {
-    const response = await fetch(
+    const response = await axios.get(
             `/api/${path}`, 
             {
                 headers: {
@@ -12,20 +14,38 @@ const search = async ({path, token}: Params) => {
                 }
             }
         );
-    const data = await response.json();
+    const {data} = response;
     return data;
 }
 
 
-const create =  async (url: string, body: any) => {
-    const response = await fetch(
-        `/api/${url}`,
-        {
-            headers: {'accept': 'application/json', 'content-type': 'application/json'},
-            body: JSON.stringify(body),
-            method: 'POST'
-        }
-    )
-    return response;
+const create =  async ({url, token,  body}: any) => {
+    return await axios({
+        method: 'POST',
+        url:  `/api/${url}`,
+        data: 
+        body,
+        headers: {
+            'accept': 'application/json', 
+            'content-type': 'application/json', 
+            ...(token ? ({ 'Authorization': `Bearer ${token}`}): null)
+
+        },
+    })
 }
-export {search, create};
+
+const partialUpdate =  async ({path, token,  body}: any) => {
+    return await axios({
+        method: 'PATCH',
+        url:  `/api/${path}`,
+        data: 
+        body,
+        headers: {
+            'accept': 'application/json', 
+            'content-type': 'application/json', 
+            ...(token ? ({ 'Authorization': `Bearer ${token}`}): null)
+
+        },
+    })
+}
+export {search, create, partialUpdate};

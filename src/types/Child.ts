@@ -3,6 +3,6 @@ export type Child = {
     firstName: string
     lastName: string
     eyeColor?: string
-    brithDate: string
-    brithTime: string
+    birthDate: string
+    birthTime: string
 }

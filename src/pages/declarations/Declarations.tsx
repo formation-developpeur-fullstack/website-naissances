@@ -1,5 +1,5 @@
 import DeclarationsItems from "@/components/declarations/DeclarationsItems";
-import Debug from "@/components/shared/Debug";
+import PageFilter from "@/components/shared/PageFilter";
 import { useDeclarations } from "@/hooks";
 
 function Declarations() {
@@ -12,6 +12,12 @@ function Declarations() {
   } = useDeclarations();
   return (
     <>
+      <PageFilter
+        btnLabel="Nouvelle déclaration"
+        btnPath="/private/declarations/nouvelle-declaration"
+        inputPlaceHolder="Rechercher une declaration"
+        action={() => null}
+      />
       <div className="bg-white shadow-md rounded-md">
         <DeclarationsItems
           declarations={
@@ -24,7 +30,6 @@ function Declarations() {
           sortByDate={sortByDate}
         />
       </div>
-      <Debug data={declarations} />
     </>
   );
 }

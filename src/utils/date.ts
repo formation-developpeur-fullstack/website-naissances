@@ -1,4 +1,3 @@
-const daysOfWeek = ["Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam.", "Dim."]
 const monthsOfYear = ["Jan.", "Fev.", "Mar.", "Avr.", "Mai", "Juin", "Juil.", "Août", "Sep.", "Oct.", "Nov.", "Dec."]
 const formatDay = (day: number) => {
     return `0${day}`.slice(-2)

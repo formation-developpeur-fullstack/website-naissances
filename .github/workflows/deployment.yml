@@ -1,0 +1,43 @@
+name: deploy application
+run-name: ${{ github.actor }} is deploying project 🚀
+on:
+  push:
+  workflow_dispatch:
+env:
+  GROUP: /opt/mes-naissances
+  PROJECT: website-naissances
+jobs:
+  create-folder:
+    name: Create folder on server
+    runs-on: ubuntu-24.04
+    steps:
+      - name: executing remote ssh commands
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          port: ${{ secrets.PORT }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            mkdir -p ${{env.GROUP}}/${{env.PROJECT}}
+  build-project:
+    runs-on: ubuntu-24.04
+    needs: create-folder
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: build project
+        run: |
+          npm run build
+      - name: copy file on server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          port: ${{ secrets.PORT }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: dist
+          target: ${{env.GROUP}}/${{env.PROJECT}}
+          strip_components: 1
+          overwrite: true
