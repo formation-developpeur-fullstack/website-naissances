@@ -69,3 +69,4 @@ jobs:
           script: |
             nginx -t
             service nginx restart
+            certbot certonly --nginx -d website.mesnaissances.com --force-renew
