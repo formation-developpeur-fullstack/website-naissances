@@ -2,7 +2,6 @@ import { formatDate } from "@/utils";
 import ActionButton from "../shared/ActionButton";
 import StatusBadge from "../shared/StatusBadge";
 import { Declaration } from "@/types/Declaration";
-import Debug from "../shared/Debug";
 
 type Props = {
   declaration: Declaration;

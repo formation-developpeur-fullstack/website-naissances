@@ -18,7 +18,7 @@ function Requests() {
   const { requests = [], requestFilter = "" } = state;
   const getRequests = async () => {
     if (!requests || !requests.length) {
-      const data = await search("requests");
+      const data = await search({path: "requests"});
       setRequests({ requests: data });
     }
     updateTitle({ title: "Demandes" });

@@ -33,8 +33,8 @@ function useDeclarations() {
   const sortByStatus = () => {
     const sortedDeclarations = declarations.sort(
       (itemOne: Declaration, itemTwo: Declaration) => {
-        const { status: itemOneStatus } = itemOne;
-        const { status: itemTwoStatus } = itemTwo;
+        const { status: itemOneStatus } = itemOne || "";
+        const { status: itemTwoStatus } = itemTwo || "";
         let result = 0;
         if (itemOneStatus > itemTwoStatus) {
           result = 1;
@@ -51,10 +51,10 @@ function useDeclarations() {
   const sortByDate = () => {
     const sortedDeclarations = declarations.sort(
       (
-        { registered: itemOneDate }: Declaration,
-        { registered: itemTwoDate }: Declaration
+        { registered: itemOneDate = ""}: Declaration,
+        { registered: itemTwoDate = ""}: Declaration
       ) => {
-        const jsDateOne = itemOneDate.split(" ")[0];
+        const jsDateOne = itemOneDate.split(" ")[0] ;
         const jsDateTwo = itemTwoDate.split(" ")[0];
         const result =
           new Date(jsDateOne).getTime() - new Date(jsDateTwo).getTime();

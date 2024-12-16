@@ -6,7 +6,7 @@ export type Declaration = {
     picture?: string
     comment?: string
     status: string
-    registered: string
+    registered?: string
     company: Company
     child: Child
     firstParent?: Profile

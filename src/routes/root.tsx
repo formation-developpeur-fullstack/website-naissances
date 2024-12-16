@@ -3,7 +3,6 @@ import App from "@/App";
 import ErrorPage from "@/error-page";
 import PrivateLayout from "@/layouts/PrivateLayout";
 import Declarations from "@/pages/declarations/Declarations";
-import Home from "@/pages/Home";
 import DeclarationEdit from "@/pages/declarations/DeclarationEdit";
 import Requests from "@/pages/requests/Requests";
 import RequestEdit from "@/pages/requests/RequestEdit";
