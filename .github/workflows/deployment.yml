@@ -68,4 +68,4 @@ jobs:
           key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
           script: |
             nginx -t
-            nginx restart
+            service nginx restart
