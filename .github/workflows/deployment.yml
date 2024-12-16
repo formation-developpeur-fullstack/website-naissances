@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 env:
   GROUP: /opt/mes-naissances
-  PROJECT: website-naissances
+  PROJECT: website
 jobs:
   create-folder:
     name: Create folder on server
@@ -42,3 +42,30 @@ jobs:
           target: ${{env.GROUP}}/${{env.PROJECT}}
           strip_components: 1
           overwrite: true
+  run-project:
+    name: run project on server
+    runs-on: ubuntu-24.04
+    needs: build-project
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: copy configurations file on server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          port: ${{ secrets.SERVER_PORT }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
+          source: website-naissances.conf
+          target: /etc/nginx/conf.d/website-naissances.conf
+          overwrite: true
+      - name: executing remote ssh commands
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          port: ${{ secrets.PORT }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            nginx -t
+            nginx restart
