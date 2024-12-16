@@ -17,7 +17,7 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           port: ${{ secrets.SERVER_PORT }}
           username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
           script: |
             mkdir -p ${{env.GROUP}}/${{env.PROJECT}}
   build-project:
@@ -36,7 +36,7 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           port: ${{ secrets.SERVER_PORT }}
           username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
           source: dist
           target: ${{env.GROUP}}/${{env.PROJECT}}
           strip_components: 1
