@@ -57,7 +57,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
           source: website-naissances.conf
-          target: /etc/nginx/conf.d/website-naissances.conf
+          target: /etc/nginx/conf.d
           overwrite: true
       - name: executing remote ssh commands
         uses: appleboy/ssh-action@v1.2.0
