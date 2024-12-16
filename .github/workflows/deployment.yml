@@ -29,6 +29,7 @@ jobs:
 
       - name: build project
         run: |
+          npm install
           npm run build
       - name: copy file on server
         uses: appleboy/scp-action@v0.1.7
